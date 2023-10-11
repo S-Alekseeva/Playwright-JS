@@ -3,12 +3,6 @@ const { test, expect, chromium } = require("@playwright/test");
 import { validUser, invalidUser } from "../User";
 
 test("authorization", async ({ page }) => {
-  const browser = await chromium.launch({
-    headless: false,
-    slowMo: 200,
-    devtools: true,
-  });
-
   await page.goto("https://netology.ru/");
   await page.getByRole("link", { name: "Войти" }).click();
   await page.getByPlaceholder("Email").click();
@@ -19,16 +13,9 @@ test("authorization", async ({ page }) => {
   const header = await page.locator("h2").first();
   await expect(header).toHaveText("Моё обучение");
   await page.screenshot({ path: "screenshotAccount.png", fullPage: true });
-  await browser.close();
 });
 
 test("unsuccessful authorization", async ({ page }) => {
-  const browser = await chromium.launch({
-    headless: false,
-    slowMo: 200,
-    devtools: true,
-  });
-
   await page.goto("https://netology.ru/");
   await page.getByRole("link", { name: "Войти" }).click();
   await page.getByPlaceholder("Email").click();
@@ -40,5 +27,4 @@ test("unsuccessful authorization", async ({ page }) => {
     "Вы ввели неправильно логин или пароль"
   );
   await page.screenshot({ path: "screenshotError.png", fullPage: true });
-  await browser.close();
 });
